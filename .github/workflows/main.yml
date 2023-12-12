@@ -23,4 +23,4 @@ jobs:
         if: failure()
         with:
           name: build-reports
-          path: '**/build/reports/'
+          path: '**/build/reports/tests/test/*'
