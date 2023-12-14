@@ -17,7 +17,7 @@ jobs:
           echo origin/${GITHUB_HEAD_REF}
 
           # Get modified files from git diff
-          MODIFIED_FILES=$(git diff --name-only ${{ github.base_ref }}^ origin/${GITHUB_HEAD_REF})
+          MODIFIED_FILES=$(git diff --name-only origin/${{ github.base_ref }}^ origin/${GITHUB_HEAD_REF})
           echo $MODIFIED_FILES
 
           # Extract unique package names from modified files
