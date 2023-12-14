@@ -15,6 +15,6 @@ class ActionMicronautTestTest {
 
     @Test
     void testItWorks() {
-        Assertions.assertFalse(application.isRunning());
+        Assertions.assertTrue(application.isRunning());
     }
 }
