@@ -16,6 +16,29 @@ jobs:
         with:
           java-version: '17'
           distribution: 'oracle'
+      - name: Get dependencies
+        run: |
+          # Get modified files from git diff
+          MODIFIED_FILES=$(git diff --name-only HEAD^ HEAD)
+          echo $MODIFIED_FILES
+
+          # Extract unique package names from modified files
+          MODIFIED_SUBPROJECTS=$(echo "$MODIFIED_FILES" | awk -F'/' '{print $1}' | sort -u | paste -sd "|" -)
+          echo $MODIFIED_SUBPROJECTS
+
+          # Store Gradle dependencies output in a variable
+          DEPENDENCIES=$(./gradlew :sink.service:dependencies)
+          echo $DEPENDENCIES
+
+          # Check if any modified subproject is present in dependencies using grep
+          echo "$DEPENDENCIES" | grep -qE "$MODIFIED_SUBPROJECTS" && depends_on_modified=true || depends_on_modified=false
+
+          # Output the result
+          if [ "$depends_on_modified" = true ]; then
+              echo "true"
+          else
+              echo "false"
+          fi
       - name: Test
         run: ./gradlew test --stacktrace --max-workers 1
       - name: Upload build reports
