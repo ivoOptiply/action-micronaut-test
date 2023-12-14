@@ -11,6 +11,7 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v4
+        depth: 2
       - name: Get dependencies
         run: |
           echo ${{ github.base_ref }}
